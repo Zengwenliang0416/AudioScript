@@ -1,0 +1,10 @@
+---
+description: Best practices for using Shadcn UI components
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+- Use Shadcn UI components as building blocks for your custom components
+- Customize components using the `className` prop and Tailwind CSS utilities
+- Implement proper accessibility attributes and ARIA roles
+- Use the provided dark mode support for consistent theming
+- Follow the component structure guidelines for consistent code organization

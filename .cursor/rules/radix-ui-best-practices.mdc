@@ -1,0 +1,10 @@
+---
+description: Best practices for using Radix UI primitives
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+- Use Radix UI primitives as the foundation for your custom components
+- Implement proper accessibility features using Radix UI's built-in support
+- Customize the look and feel using Tailwind CSS or other styling solutions
+- Follow the composition patterns provided by Radix UI for consistent usage
+- Use the provided TypeScript types for better type safety and autocompletion

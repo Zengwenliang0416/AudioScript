@@ -1,0 +1,10 @@
+---
+description: Best practices for Next.js applications using the App Router
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+- Favor server components for better performance and SEO
+- Use the `use client` directive sparingly, only for client-side interactivity
+- Implement proper error handling with `error.tsx` and `not-found.tsx`
+- Use `generateStaticParams` for static generation of dynamic routes
+- Optimize data fetching with `fetch` and caching strategies

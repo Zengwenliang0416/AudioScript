@@ -1,0 +1,10 @@
+---
+description: Best practices for React development
+globs: **/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+- Use functional components with hooks instead of class components
+- Minimize the use of `useEffect`; prefer `useCallback` and `useMemo` for optimization
+- Implement proper state management using context or state management libraries
+- Use `React.memo` for performance optimization of pure components
+- Implement proper prop type validation using TypeScript interfaces

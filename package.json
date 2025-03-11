@@ -1,0 +1,11 @@
+{"name": "audioscript",
+ "version": "1.0.0",
+ "description": "A project for audio processing.",
+ "main": "index.js",
+ "scripts": {
+   "start": "node index.js",
+   "test": "echo 'No tests specified' && exit 0"
+ },
+ "author": "Zengwenliang0416",
+ "license": "MIT"
+} 

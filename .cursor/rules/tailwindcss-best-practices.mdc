@@ -1,0 +1,10 @@
+---
+description: Best practices for using Tailwind CSS
+globs: **/*.{ts,tsx,css}
+alwaysApply: false
+---
+- Use utility classes for styling instead of custom CSS
+- Implement a consistent design system using Tailwind's configuration
+- Use responsive design utilities for mobile-first development
+- Optimize performance by purging unused styles and using JIT mode
+- Implement dark mode support using Tailwind's built-in classes
