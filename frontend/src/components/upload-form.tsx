@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
-import { Upload } from 'lucide-react'
+import { Upload, Music2, Languages, Type, Wand2 } from 'lucide-react'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -58,14 +58,22 @@ export const UploadForm = () => {
   }
 
   return (
-    <Card className="w-full max-w-xl mx-auto">
+    <Card className="w-full backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 border-2 border-dashed">
       <CardHeader>
-        <CardTitle>音频转录</CardTitle>
+        <CardTitle className="flex items-center gap-2 text-2xl">
+          <Music2 className="w-6 h-6" />
+          音频转录
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <div
-            className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer mb-4"
+            className={`
+              relative border-2 border-dashed rounded-xl p-12 text-center cursor-pointer mb-8
+              transition-all duration-200 ease-in-out
+              ${isUploading ? 'bg-gray-50/50' : 'hover:bg-gray-50/50'}
+              dark:hover:bg-gray-700/50
+            `}
             onDragOver={(e) => e.preventDefault()}
             onDrop={onDrop}
             onClick={() => {
@@ -79,21 +87,35 @@ export const UploadForm = () => {
               input.click()
             }}
           >
-            <Upload className="w-12 h-12 mx-auto mb-2 text-gray-400" />
-            <p className="text-sm text-gray-600">
-              拖放音频文件到此处或点击上传
-              <br />
-              支持的格式: {SUPPORTED_AUDIO_TYPES.map((type) => type.split('/')[1]).join(', ')}
-            </p>
+            <div className="absolute inset-0 flex items-center justify-center opacity-10">
+              <div className="w-full h-full max-w-[200px] max-h-[200px]">
+                <Upload className="w-full h-full" />
+              </div>
+            </div>
+            <div className="relative">
+              <Upload className="w-16 h-16 mx-auto mb-4 text-blue-500" />
+              <p className="text-lg font-medium mb-2">
+                拖放音频文件到此处或点击上传
+              </p>
+              <p className="text-sm text-gray-500">
+                支持的格式: {SUPPORTED_AUDIO_TYPES.map((type) => type.split('/')[1]).join(', ')}
+              </p>
+              <p className="text-sm text-gray-500 mt-1">
+                最大文件大小: {Math.round(MAX_FILE_SIZE / 1024 / 1024)}MB
+              </p>
+            </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="language"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>语言</FormLabel>
+                  <FormLabel className="flex items-center gap-2">
+                    <Languages className="w-4 h-4" />
+                    语言
+                  </FormLabel>
                   <Select
                     disabled={form.watch('detectLanguage')}
                     value={field.value}
@@ -121,7 +143,10 @@ export const UploadForm = () => {
               name="punctuationStyle"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>标点样式</FormLabel>
+                  <FormLabel className="flex items-center gap-2">
+                    <Type className="w-4 h-4" />
+                    标点样式
+                  </FormLabel>
                   <Select
                     disabled={!form.watch('autoPunctuation')}
                     value={field.value}
@@ -143,38 +168,46 @@ export const UploadForm = () => {
                 </FormItem>
               )}
             />
+          </div>
 
-            <div className="flex flex-col gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => form.setValue('detectLanguage', !form.watch('detectLanguage'))}
-              >
-                {form.watch('detectLanguage') ? '✓' : ''} 自动检测语言
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => form.setValue('multiLanguage', !form.watch('multiLanguage'))}
-                disabled={!form.watch('detectLanguage')}
-              >
-                {form.watch('multiLanguage') ? '✓' : ''} 混合语言识别
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => form.setValue('autoPunctuation', !form.watch('autoPunctuation'))}
-              >
-                {form.watch('autoPunctuation') ? '✓' : ''} 自动标点
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => form.setValue('toneAnalysis', !form.watch('toneAnalysis'))}
-              >
-                {form.watch('toneAnalysis') ? '✓' : ''} 语气分析
-              </Button>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <Button
+              type="button"
+              variant={form.watch('detectLanguage') ? 'default' : 'outline'}
+              className="w-full h-auto py-4 flex flex-col items-center gap-2"
+              onClick={() => form.setValue('detectLanguage', !form.watch('detectLanguage'))}
+            >
+              <Languages className="w-5 h-5" />
+              <span className="text-sm">自动检测语言</span>
+            </Button>
+            <Button
+              type="button"
+              variant={form.watch('multiLanguage') ? 'default' : 'outline'}
+              className="w-full h-auto py-4 flex flex-col items-center gap-2"
+              disabled={!form.watch('detectLanguage')}
+              onClick={() => form.setValue('multiLanguage', !form.watch('multiLanguage'))}
+            >
+              <Languages className="w-5 h-5" />
+              <span className="text-sm">混合语言识别</span>
+            </Button>
+            <Button
+              type="button"
+              variant={form.watch('autoPunctuation') ? 'default' : 'outline'}
+              className="w-full h-auto py-4 flex flex-col items-center gap-2"
+              onClick={() => form.setValue('autoPunctuation', !form.watch('autoPunctuation'))}
+            >
+              <Type className="w-5 h-5" />
+              <span className="text-sm">自动标点</span>
+            </Button>
+            <Button
+              type="button"
+              variant={form.watch('toneAnalysis') ? 'default' : 'outline'}
+              className="w-full h-auto py-4 flex flex-col items-center gap-2"
+              onClick={() => form.setValue('toneAnalysis', !form.watch('toneAnalysis'))}
+            >
+              <Wand2 className="w-5 h-5" />
+              <span className="text-sm">语气分析</span>
+            </Button>
           </div>
         </Form>
       </CardContent>
